@@ -11,4 +11,8 @@ export class GlobalEventDistributor {
     dispatch(event) {
         this.stores.forEach((s) => s.dispatch(event));
     }
+
+    subscribe(method) {
+        this.stores.forEach((s) => s.subscribe(method));
+    }
 }

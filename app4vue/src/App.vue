@@ -1,28 +1,61 @@
 <template>
-  <div id="app4">
+<div id="app4">
     <img src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    {{state}}
+    <button @click="increment()">INCREMENT</button>
+    <button @click="decrement()">DECREMENT</button>
+    <button @click="localIncrement()">LOCAL INCREMENT</button>
+    <button @click="localDecrement()">LOCAL DECREMENT</button>
+</div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
 
 export default {
-  name: 'app4',
-  components: {
-    HelloWorld
-  }
+    name: 'app4',
+    data() {
+      return{
+        state:{
+          count: 0
+        }
+      }
+    },
+    components: {
+        HelloWorld
+    },
+    mounted() {
+        var self = this;
+
+        self.state = self.props.store.getState();//Initialization
+        self.props.globalEventDistributor.subscribe(function(){
+          self.state = self.props.store.getState();
+        });
+    },
+    methods: {
+        increment() {
+            this.props.globalEventDistributor.dispatch({ type: 'INCREMENT' });
+        },
+        decrement() {
+            this.props.globalEventDistributor.dispatch({ type: 'DECREMENT' });
+        },
+        localIncrement() {
+            this.props.store.dispatch({ type: 'INCREMENT' });
+        },
+        localDecrement() {
+            this.props.store.dispatch({ type: 'DECREMENT' });
+        }
+    }
 }
 </script>
 
 <style>
 #app4 {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
 }
 </style>
