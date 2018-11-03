@@ -6,6 +6,14 @@
     <button @click="decrement()">DECREMENT</button>
     <button @click="localIncrement()">LOCAL INCREMENT</button>
     <button @click="localDecrement()">LOCAL DECREMENT</button>
+    <br>
+    <br>
+    <br>
+    <p>content goes here</p>
+    <router-link :to="{ name: 'test'}">test</router-link>
+    <br>
+    <router-link :to="{ name: 'test2'}">test2</router-link>
+    <router-view></router-view>
 </div>
 </template>
 
@@ -15,11 +23,11 @@ import HelloWorld from './components/HelloWorld.vue'
 export default {
     name: 'app4',
     data() {
-      return{
-        state:{
-          count: 0
+        return {
+            state: {
+                count: 0
+            }
         }
-      }
     },
     components: {
         HelloWorld
@@ -27,23 +35,31 @@ export default {
     mounted() {
         var self = this;
 
-        self.state = self.props.store.getState();//Initialization
-        self.props.globalEventDistributor.subscribe(function(){
-          self.state = self.props.store.getState();
+        self.state = self.props.store.getState(); //Initialization
+        self.props.globalEventDistributor.subscribe(function () {
+            self.state = self.props.store.getState();
         });
     },
     methods: {
         increment() {
-            this.props.globalEventDistributor.dispatch({ type: 'INCREMENT' });
+            this.props.globalEventDistributor.dispatch({
+                type: 'INCREMENT'
+            });
         },
         decrement() {
-            this.props.globalEventDistributor.dispatch({ type: 'DECREMENT' });
+            this.props.globalEventDistributor.dispatch({
+                type: 'DECREMENT'
+            });
         },
         localIncrement() {
-            this.props.store.dispatch({ type: 'INCREMENT' });
+            this.props.store.dispatch({
+                type: 'INCREMENT'
+            });
         },
         localDecrement() {
-            this.props.store.dispatch({ type: 'DECREMENT' });
+            this.props.store.dispatch({
+                type: 'DECREMENT'
+            });
         }
     }
 }
